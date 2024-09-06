@@ -8,8 +8,10 @@
 * [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/) </br>
 * [kind](https://github.com/kubernetes-sigs/kind?tab=readme-ov-file)
 * [Helm](https://helm.sh/docs/intro/install/)
+* [gcloud CLI](https://cloud.google.com/sdk/docs/install)
+* [GKE gcloud auth plugin](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
 
-## Create management cluster with kind
+## Create a management cluster with kind
 When you create your kind cluster, a `kubeconfig` file will get created which has your cluster connection credentials (among other things).
 
 Tell kind to use this file to store its configuration -- `kubeconfig-kind.yaml`. That file has already been added to `.gitignore`. This will keep things tidy.
@@ -52,3 +54,74 @@ Check out all of the custom resources that got added to your cluster:
 kubectl api-resources | grep crossplane
 ```
 ## Configure Crossplane to create and manage Google Cloud resources
+
+Enable authentication to Google Cloud via CLI.
+```bash
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+```
+
+Create a Google Cloud project.
+```bash
+export PROJECT_ID=ww-$(date +%Y%m%d%H%M%S)
+
+gcloud projects create $PROJECT_ID
+```
+
+Enable Google Cloud Kubernetes API.
+```bash
+echo "https://console.cloud.google.com/marketplace/product/google/container.googleapis.com?project=$PROJECT_ID"
+
+# Open the URL from the output and enable the Kubernetes API
+```
+
+Create a Google Cloud Service Account named wiggitywhitney.
+```bash
+export SA_NAME=wiggitywhitney
+
+export SA="${SA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com"
+
+gcloud iam service-accounts create $SA_NAME --project $PROJECT_ID
+```
+
+Bind the `wiggitywhitney` service account to an admin role.
+```bash
+export ROLE=roles/admin
+
+gcloud projects add-iam-policy-binding --role $ROLE $PROJECT_ID --member serviceAccount:$SA
+```
+
+Create credentials in a `gcp-creds.json` file (already added to `.gitignore`).
+```bash
+gcloud iam service-accounts keys create gcp-creds.json --project $PROJECT_ID --iam-account $SA
+```
+
+```bash
+```
+## TO BE CONTINUED
+
+## Resource Clean Up
+
+Destroy kind cluster
+```bash
+kind delete cluster
+```
+
+Delete the kind Kubeconfig file
+```bash
+cat $PWD/kubeconfig-kind.yaml
+
+## MAKE SURE THIS IS THE RIGHT FILE
+
+rm -rf $PWD/kubeconfig-kind.yaml
+```
+
+Delete the GCP project
+```bash
+gcloud projects delete $PROJECT_ID --quiet
+```
+
+TODO: Delete GCP Kubeconfig, once there is one
+```bash
+```
+
+
