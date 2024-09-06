@@ -53,7 +53,7 @@ If you like, check out all of the custom resources that got added to your cluste
 ```bash
 kubectl api-resources | grep crossplane
 ```
-## Configure Crossplane to create and manage Google Cloud resources
+## Configure Google Cloud so that it can be managed by Crossplane
 
 Enable authentication to Google Cloud via CLI.
 ```bash
@@ -95,9 +95,12 @@ Create credentials in a `gcp-creds.json` file (already added to `.gitignore`).
 gcloud iam service-accounts keys create gcp-creds.json --project $PROJECT_ID --iam-account $SA
 ```
 
+## Configure Crossplane to create and manage Google Cloud resources
+TO BE CONTINUED
+
 ```bash
 ```
-## TO BE CONTINUED
+
 
 ## Resource Clean Up
 
