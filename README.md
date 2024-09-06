@@ -2,7 +2,7 @@
 
 ## Important Links:
 * [kind](https://kind.sigs.k8s.io/)
-* [Crossplane quickstart](https://docs.crossplane.io/latest/getting-started/)
+* [Crossplane](https://docs.crossplane.io/)
 
 ## Prerequisites: </br>
 * [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/) </br>
