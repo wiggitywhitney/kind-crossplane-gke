@@ -14,7 +14,7 @@
 ## Create a management cluster with kind
 When you create your kind cluster, a `kubeconfig` file will get created which has your cluster connection credentials (among other things).
 
-Tell kind to use this file to store its configuration -- `kubeconfig-kind.yaml`. That file has already been added to `.gitignore`. This will keep things tidy.
+Tell kind to use this file to store its configuration -- `kubeconfig-kind.yaml`. That file has already been added to `.gitignore`.
 
 ```bash
 export KUBECONFIG=$PWD/kubeconfig-kind.yaml
@@ -49,7 +49,7 @@ Verify your Crossplane installation.
 kubectl get pods -n crossplane-system
 ```
 
-Check out all of the custom resources that got added to your cluster:
+If you like, check out all of the custom resources that got added to your cluster as part of the Crossplane installation:
 ```bash
 kubectl api-resources | grep crossplane
 ```
@@ -62,7 +62,7 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 Create a Google Cloud project.
 ```bash
-export PROJECT_ID=ww-$(date +%Y%m%d%H%M%S)
+export PROJECT_ID=wiggity-$(date +%Y%m%d%H%M%S)
 
 gcloud projects create $PROJECT_ID
 ```
@@ -74,7 +74,7 @@ echo "https://console.cloud.google.com/marketplace/product/google/container.goog
 # Open the URL from the output and enable the Kubernetes API
 ```
 
-Create a Google Cloud Service Account named wiggitywhitney.
+Create a Google Cloud Service Account named `wiggitywhitney`.
 ```bash
 export SA_NAME=wiggitywhitney
 
@@ -108,7 +108,7 @@ kind delete cluster
 
 Delete the kind Kubeconfig file
 ```bash
-cat $PWD/kubeconfig-kind.yaml
+echo $KUBECONFIG
 
 ## MAKE SURE THIS IS THE RIGHT FILE
 
