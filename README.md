@@ -10,6 +10,7 @@
 * [Helm](https://helm.sh/docs/intro/install/)
 * [gcloud CLI](https://cloud.google.com/sdk/docs/install)
 * [GKE gcloud auth plugin](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
+* [yq](https://github.com/mikefarah/yq)
 
 ## Create a management cluster with kind
 When you create your kind cluster, a `kubeconfig` file will get created which has your cluster connection credentials (among other things).
@@ -131,9 +132,16 @@ Next we need to teach Crossplane how to connect to our Google Cloud project with
 
 Run this command to add your project name to the `providerconfig.yaml` file that is already in this repo:
 ```bash
-
+yq --inplace ".spec.projectID = \"$PROJECT_ID\"" crossplane/providerconfig.yaml
 ```
 
+As you can see, our `ProviderConfig` references both our GCP project name and the `gcp-secret` Kubernetes secret that we created earlier.
+```bash
+cat crossplane/providerconfig.yaml
+```
+Let's apply it to the cluster.
+```bash
+```
 
 
 ```bash

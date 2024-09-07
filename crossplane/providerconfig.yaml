@@ -1,9 +1,9 @@
-apiVersion: gcp.upbound.io/v1beta1
+apiVersion: gcp.crossplane.io/v1beta1
 kind: ProviderConfig
 metadata:
   name: default
 spec:
-  projectID: 
+  projectID:
   credentials:
     source: Secret
     secretRef:
