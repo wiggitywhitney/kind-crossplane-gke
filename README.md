@@ -185,6 +185,8 @@ TODO: Rename kubeconfig file since it references both kind and GKE clusters
 TODO: How to best show that kubectl is now manipulating GKE Cluster?
 </br>
 TODO: How to switch kubectl between clusters
+</br>
+TODO: Show that you can manipulate the Cluster Crossplane resource and see the cluster change in GKE (change name to `newnamewhodis`) ?
 
 ```bash
 ```
