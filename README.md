@@ -96,7 +96,45 @@ gcloud iam service-accounts keys create gcp-creds.json --project $PROJECT_ID --i
 ```
 
 ## Configure Crossplane to create and manage GKE resources
-TO BE CONTINUED
+
+Create a secret named `gcp-secret` that contains the GCP credentials that we just created and add it to the `crossplane-system` namespace
+```bash
+kubectl --namespace crossplane-system \
+    create secret generic gcp-secret \
+    --from-file creds=./gcp-creds.json
+```
+
+To see your new secret, run the following:
+```bash
+kubectl get secret gcp-secret -n crossplane-system -o yaml
+```
+
+View `provider-gcp`, the Crossplane infrastructure provider for GCP. 
+```bash
+cat crossplane/provider-gcp.yaml
+```
+
+Providers extend Crossplane by installing controllers for new kinds of managed resources
+
+Apply `provider-gcp` to your cluster to add [about 30 new custom resource definitions](https://marketplace.upbound.io/providers/crossplane-contrib/provider-gcp/v0.22.0) to your cluster. Each of these CRDs is called a `Managed Resource`, and each one is Crossplane's representation of a GCP resource. 
+
+Once this Provider is installed, you will have the ability to manage external cloud resources via the Kubernetes API.
+```bash
+kubectl apply -f crossplane/provider-gcp.yaml
+```
+To see all of your new resources, run the following:
+```bash
+kubectl api-resources | grep "gcp.crossplane.io"
+```
+
+Next we need to teach Crossplane how to connect to our Google Cloud project with the permissions that we created in the last step. We do that using a Crossplane `ProviderConfig` resource. 
+
+Run this command to add your project name to the `providerconfig.yaml` file that is already in this repo:
+```bash
+
+```
+
+
 
 ```bash
 ```
