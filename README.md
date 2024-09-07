@@ -23,7 +23,7 @@ kind create cluster
 ## Install Crossplane
 Install Crossplane into the kind cluster using Helm.
 
-First, enable the Crossplane Helm Chart repository
+First, enable the Crossplane Helm Chart repository.
 
 ```bash
 helm repo add \
@@ -92,7 +92,7 @@ gcloud iam service-accounts keys create gcp-creds.json --project $PROJECT_ID --i
 
 ## Configure Crossplane to create and manage GKE resources
 
-Create a secret named `gcp-secret` that contains the GCP credentials that we just created and add it to the `crossplane-system` namespace
+Create a secret named `gcp-secret` that contains the GCP credentials that we just created and add it to the `crossplane-system` namespace.
 ```bash
 kubectl --namespace crossplane-system \
     create secret generic gcp-secret \
@@ -104,12 +104,12 @@ To see your new secret, run the following:
 kubectl get secret gcp-secret -n crossplane-system -o yaml
 ```
 
-View `provider-gcp`, the Crossplane infrastructure provider for GCP. 
+View the `provider-gcp` manifest. When applied, it will install the Crossplane infrastructure provider for GCP. 
 ```bash
 cat crossplane-config/provider-gcp.yaml
 ```
 
-Providers extend Crossplane by installing controllers for new kinds of managed resources
+Providers extend Crossplane by installing controllers for new kinds of managed resources.
 
 Apply `provider-gcp` to your cluster to add [about 30 new custom resource definitions](https://marketplace.upbound.io/providers/crossplane-contrib/provider-gcp/v0.22.0) to your cluster. Each of these CRDs is called a `Managed Resource`, and each one is Crossplane's representation of a GCP resource. 
 
@@ -117,10 +117,11 @@ Once this Provider is installed, you will have the ability to manage external cl
 ```bash
 kubectl apply -f crossplane-config/provider-gcp.yaml
 ```
-To see all of your new resources, run the following:
+To see all of your new Crossplane custom resource definitions, run the following:
 ```bash
 kubectl api-resources | grep "gcp.crossplane.io"
 ```
+(Spoiler alert: later we're going to create a `Cluster` resource!)
 
 Next we need to teach Crossplane how to connect to our Google Cloud project with the permissions that we created in the last step. We do that using a Crossplane `ProviderConfig` resource. 
 
@@ -148,13 +149,13 @@ Apply this minimal `Cluster` resource to make a GKE cluster!
 kubectl apply -f cluster-definitions/bare-minimum.yaml
 ```
 
-View the minimal `Cluster` manifest. See that it uses [GKE Autopilot](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview) to manage your cluster configuration, so, in this example, there are very few decisions that are made as part of the resource.
+View the minimal `Cluster` manifest. See that it uses [GKE Autopilot](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview) to manage your cluster configuration, so in this example, there are very few decisions that are made as part of the resource.
 
 ```bash
 cat cluster-definitions/bare-minimum.yaml
 ```
 
-You can `get` and `describe` your Crossplane `Cluster` resource just like any other Kubernetes resource
+You can `get` and `describe` your Crossplane `Cluster` resource just like any other Kubernetes resource.
 ```bash
 kubectl get cluster heckyesyoudiditgoodjob
 ```
