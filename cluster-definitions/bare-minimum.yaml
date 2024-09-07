@@ -1,0 +1,12 @@
+apiVersion: container.gcp.crossplane.io/v1beta2
+kind: Cluster
+metadata:
+  name: heckyesyoudiditgoodjob
+spec:
+  forProvider:
+    autopilot:
+      enabled: true
+    location: us-central1
+  writeConnectionSecretToRef:
+    name: heckyesyoudiditgoodjob
+    namespace: default

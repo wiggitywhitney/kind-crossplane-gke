@@ -15,12 +15,6 @@
 ## Create a management cluster with kind
 When you create your kind cluster, a `kubeconfig` file will get created which has your cluster connection credentials (among other things).
 
-Tell kind to use this file to store its configuration -- `kubeconfig-kind.yaml`. That file has already been added to `.gitignore`.
-
-```bash
-export KUBECONFIG=$PWD/kubeconfig-kind.yaml
-```
-
 Next, create a kind cluster. 
 
 ```bash
@@ -112,7 +106,7 @@ kubectl get secret gcp-secret -n crossplane-system -o yaml
 
 View `provider-gcp`, the Crossplane infrastructure provider for GCP. 
 ```bash
-cat crossplane/provider-gcp.yaml
+cat crossplane-config/provider-gcp.yaml
 ```
 
 Providers extend Crossplane by installing controllers for new kinds of managed resources
@@ -121,7 +115,7 @@ Apply `provider-gcp` to your cluster to add [about 30 new custom resource defini
 
 Once this Provider is installed, you will have the ability to manage external cloud resources via the Kubernetes API.
 ```bash
-kubectl apply -f crossplane/provider-gcp.yaml
+kubectl apply -f crossplane-config/provider-gcp.yaml
 ```
 To see all of your new resources, run the following:
 ```bash
@@ -132,21 +126,67 @@ Next we need to teach Crossplane how to connect to our Google Cloud project with
 
 Run this command to add your project name to the `providerconfig.yaml` file that is already in this repo:
 ```bash
-yq --inplace ".spec.projectID = \"$PROJECT_ID\"" crossplane/providerconfig.yaml
+yq --inplace ".spec.projectID = \"$PROJECT_ID\"" crossplane-config/providerconfig.yaml
 ```
 
 As you can see, our `ProviderConfig` references both our GCP project name and the `gcp-secret` Kubernetes secret that we created earlier.
 ```bash
-cat crossplane/providerconfig.yaml
+cat crossplane-config/providerconfig.yaml
 ```
 Let's apply it to the cluster.
 ```bash
+kubectl apply -f crossplane-config/providerconfig.yaml
+```
+Great! Now we can use Crossplane and Kubernetes to create a GKE cluster!
+
+## Use Crossplane and Kuberentes to create a GKE cluster
+
+[API Documentation for the Crossplane `Cluster` Managed Resource](https://marketplace.upbound.io/providers/crossplane-contrib/provider-gcp/v0.22.0/resources/container.gcp.crossplane.io/Cluster/v1beta2)
+
+Apply this minimal `Cluster` resource to make a GKE cluster!
+```bash
+kubectl apply -f cluster-definitions/bare-minimum.yaml
 ```
 
+View the minimal `Cluster` manifest. See that it uses [GKE Autopilot](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview) to manage your cluster configuration, so, in this example, there are very few decisions that are made as part of the resource.
+
+```bash
+cat cluster-definitions/bare-minimum.yaml
+```
+
+You can `get` and `describe` your Crossplane `Cluster` resource just like any other Kubernetes resource
+```bash
+kubectl get cluster heckyesyoudiditgoodjob
+```
+```bash
+kubectl describe cluster heckyesyoudiditgoodjob
+```
+If you like, view your cluster in Google Cloud Console:
+```bash
+echo "https://console.cloud.google.com/kubernetes/list/overview?project=$PROJECT_ID"
+
+# Open the URL from the output
+```
+
+Once your GKE cluster is ready, connect to it!
+
+```bash
+gcloud container clusters get-credentials heckyesyoudiditgoodjob --region us-central1 --project $PROJECT_ID
+
+# The gke_gcloud_auth_plugin_cache file has been added to .gitignore
+```
+TO BE CONTINUED 
+
+
+</br>
+TODO: Rename kubeconfig file since it references both kind and GKE clusters 
+</br>
+TODO: How to best show that kubectl is now manipulating GKE Cluster?
+</br>
+TODO: How to switch kubectl between clusters
 
 ```bash
 ```
-
 
 ## Resource Clean Up
 
@@ -155,22 +195,18 @@ Destroy kind cluster
 kind delete cluster
 ```
 
-Delete the kind Kubeconfig file
+Delete the GCP project
+```bash
+gcloud projects delete $PROJECT_ID --quiet
+```
+
+Delete the kubeconfig file
 ```bash
 echo $KUBECONFIG
 
 ## MAKE SURE THIS IS THE RIGHT FILE
 
 rm -rf $PWD/kubeconfig-kind.yaml
-```
-
-Delete the GCP project
-```bash
-gcloud projects delete $PROJECT_ID --quiet
-```
-
-TODO: Delete GCP Kubeconfig, once there is one
-```bash
 ```
 
 

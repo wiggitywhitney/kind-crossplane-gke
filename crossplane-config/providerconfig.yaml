@@ -3,7 +3,7 @@ kind: ProviderConfig
 metadata:
   name: default
 spec:
-  projectID:
+  projectID: wiggity-20240907101813
   credentials:
     source: Secret
     secretRef:
