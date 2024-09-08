@@ -110,18 +110,18 @@ To see your new secret, run the following:
 kubectl get secret gcp-secret -n crossplane-system -o yaml
 ```
 
-View the `provider-gcp` manifest. When applied, it will install the Crossplane infrastructure provider for GCP. 
+View the `provider-gcp-container` manifest. When applied, it will install the Crossplane infrastructure provider for GCP. 
 ```bash
-cat crossplane-config/provider-gcp.yaml
+cat crossplane-config/provider-gcp-container.yaml
 ```
 
 Providers extend Crossplane by installing controllers for new kinds of managed resources.
 
-Apply `provider-gcp` to your cluster to add [about 30 new custom resource definitions](https://marketplace.upbound.io/providers/crossplane-contrib/provider-gcp/v0.22.0) to your cluster. Each of these CRDs is called a `Managed Resource`, and each one is Crossplane's representation of a GCP resource. 
+Apply `provider-gcp-container` to your cluster to add [3 new custom resource definitions](https://marketplace.upbound.io/providers/upbound/provider-gcp-container/v1.8.0) to your cluster. Each of these CRDs is called a `Managed Resource`, and each one is Crossplane's representation of a GCP resource. 
 
 Once this Provider is installed, you will have the ability to manage external cloud resources via the Kubernetes API.
 ```bash
-kubectl apply -f crossplane-config/provider-gcp.yaml
+kubectl apply -f crossplane-config/provider-gcp-container.yaml
 ```
 To see all of your new Crossplane custom resource definitions, run the following:
 ```bash
@@ -148,7 +148,7 @@ Great! Now we can use Crossplane and Kubernetes to create a GKE cluster!
 
 ## Use Crossplane and Kuberentes to create a GKE cluster
 
-[API Documentation for the Crossplane `Cluster` Managed Resource](https://marketplace.upbound.io/providers/crossplane-contrib/provider-gcp/v0.22.0/resources/container.gcp.crossplane.io/Cluster/v1beta2)
+[API Documentation for the Crossplane `Cluster` Managed Resource](https://marketplace.upbound.io/providers/upbound/provider-gcp-container/v1.8.0/resources/container.gcp.upbound.io/Cluster/v1beta1)
 
 Apply this minimal `Cluster` resource to make a GKE cluster!
 ```bash
