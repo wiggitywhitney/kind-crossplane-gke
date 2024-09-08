@@ -15,6 +15,12 @@
 ## Create a management cluster with kind
 When you create your kind cluster, a `kubeconfig` file will get created which has your cluster connection credentials (among other things).
 
+Tell kind to use this file to store its configuration -- `kubeconfig-kind-gke.yaml`. That file has already been added to `.gitignore`.
+
+```bash
+export KUBECONFIG=$PWD/kubeconfig-kind-gke.yaml
+```
+
 Next, create a kind cluster. 
 
 ```bash
