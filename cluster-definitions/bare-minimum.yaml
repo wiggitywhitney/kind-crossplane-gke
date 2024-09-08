@@ -1,11 +1,14 @@
-apiVersion: container.gcp.crossplane.io/v1beta2
+apiVersion: container.gcp.upbound.io/v1beta1
 kind: Cluster
 metadata:
   name: heckyesyoudiditgoodjob
 spec:
   forProvider:
-    autopilot:
-      enabled: true
+    deletionProtection: false
+    enableAutopilot: true
+    enableIntranodeVisibility: true
+    ipAllocationPolicy:
+      - {}
     location: us-central1
   writeConnectionSecretToRef:
     name: heckyesyoudiditgoodjob
