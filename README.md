@@ -125,7 +125,7 @@ kubectl apply -f crossplane-config/provider-gcp-container.yaml
 ```
 To see all of your new Crossplane custom resource definitions, run the following:
 ```bash
-kubectl api-resources | grep "gcp.crossplane.io"
+kubectl api-resources | grep "gcp.upbound.io"
 ```
 (Spoiler alert: later we're going to create a `Cluster` resource!)
 
@@ -185,8 +185,7 @@ gcloud container clusters get-credentials heckyesyoudiditgoodjob --region us-cen
 TO BE CONTINUED 
 
 
-</br>
-TODO: Rename kubeconfig file since it references both kind and GKE clusters 
+
 </br>
 TODO: How to best show that kubectl is now manipulating GKE Cluster?
 </br>
@@ -215,7 +214,7 @@ echo $KUBECONFIG
 
 ## MAKE SURE THIS IS THE RIGHT FILE
 
-rm -rf $PWD/kubeconfig-kind.yaml
+rm -rf $PWD/kubeconfig-kind-gke.yaml
 ```
 
 

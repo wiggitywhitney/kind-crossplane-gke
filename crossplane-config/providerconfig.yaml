@@ -1,9 +1,9 @@
-apiVersion: gcp.crossplane.io/v1beta1
+apiVersion: gcp.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
   name: default
 spec:
-  projectID: wiggity-20240907101813
+  projectID: 
   credentials:
     source: Secret
     secretRef:
