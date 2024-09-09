@@ -117,15 +117,15 @@ cat crossplane-config/provider-gcp-container.yaml
 
 Providers extend Crossplane by installing controllers for new kinds of managed resources.
 
-Apply `provider-gcp-container` to your cluster to add [3 new custom resource definitions](https://marketplace.upbound.io/providers/upbound/provider-gcp-container/v1.8.0) to your cluster. Each of these CRDs is called a `Managed Resource`, and each one is Crossplane's representation of a GCP resource. 
+Apply `provider-gcp-container` to your cluster to add [three new custom resource definitions](https://marketplace.upbound.io/providers/upbound/provider-gcp-container/v1.8.0) to your cluster. Each of these CRDs is called a `Managed Resource`, and each one is Crossplane's representation of a GCP resource. 
 
 Once this Provider is installed, you will have the ability to manage external cloud resources via the Kubernetes API.
 ```bash
 kubectl apply -f crossplane-config/provider-gcp-container.yaml
 ```
-To see all of your new Crossplane custom resource definitions, run the following:
+To your three new Crossplane custom resource definitions, run the following:
 ```bash
-kubectl api-resources | grep "gcp.upbound.io"
+kubectl api-resources | grep "container.gcp.upbound.io"
 ```
 (Spoiler alert: later we're going to create a `Cluster` resource!)
 
