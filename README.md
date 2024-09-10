@@ -127,7 +127,7 @@ To your three new Crossplane custom resource definitions, run the following:
 ```bash
 kubectl api-resources | grep "container.gcp.upbound.io"
 ```
-(Spoiler alert: later we're going to create a `Cluster` resource!)
+(Spoiler alert: later we're going to create `Cluster` and `NodePool` resources!)
 
 Next we need to teach Crossplane how to connect to our Google Cloud project with the permissions that we created in the last step. We do that using a Crossplane `ProviderConfig` resource. 
 
@@ -148,7 +148,8 @@ Great! Now we can use Crossplane and Kubernetes to create a GKE cluster!
 
 ## Use Crossplane and Kuberentes to create a GKE cluster
 
-[API Documentation for the Crossplane `Cluster` Managed Resource](https://marketplace.upbound.io/providers/upbound/provider-gcp-container/v1.8.0/resources/container.gcp.upbound.io/Cluster/v1beta1)
+* [API Documentation for the Crossplane GCP `Cluster` Managed Resource](https://marketplace.upbound.io/providers/upbound/provider-gcp-container/v1.8.0/resources/container.gcp.upbound.io/Cluster/v1beta1)
+* [API Documentation for the Crossplane GCP `NodePool` Managed Resource](https://marketplace.upbound.io/providers/upbound/provider-gcp-container/v1.8.0/resources/container.gcp.upbound.io/NodePool/v1beta1)
 
 Apply this minimal `Cluster` resource to make a GKE cluster!
 ```bash
@@ -184,7 +185,8 @@ gcloud container clusters get-credentials heckyesyoudiditgoodjob --region us-cen
 ```
 TO BE CONTINUED 
 
-
+</br>
+TODO: Update demo to first create a simple Cluster/NodePool that doesn't use GKE AutoPilot
 
 </br>
 TODO: Show that you can manipulate the Cluster Crossplane resource and see the cluster change in GKE

@@ -1,0 +1,39 @@
+apiVersion: container.gcp.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  name: newclusterwhodis
+  labels: 
+   cluster-name: newclusterwhodis
+spec:
+  forProvider:
+    deletionProtection: false
+    initialNodeCount: 1
+    location: us-central1
+    removeDefaultNodePool: true
+
+---
+
+apiVersion: container.gcp.upbound.io/v1beta1
+kind: NodePool
+metadata:
+  name: newnodepoolwhodis
+  labels:
+    heckyesyoudidit: yourefrigginawesome
+    cluster-name: newclusterwhodis
+spec:
+  forProvider:
+    clusterSelector:
+      matchControllerRef: true
+      # matchLabels:
+      #   cluster-name: newclusterwhodis
+    nodeCount: 1
+    nodeLocations:
+      - us-central1-b
+    nodeConfig:
+      - preemptible: true
+        machineType: e2-medium
+        oauthScopes:
+          - https://www.googleapis.com/auth/cloud-platform
+        serviceAccountSelector:
+          matchLabels:
+            cluster-name: newclusterwhodis
