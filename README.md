@@ -187,11 +187,7 @@ TO BE CONTINUED
 
 
 </br>
-TODO: How to best show that kubectl is now manipulating GKE Cluster?
-</br>
-TODO: How to switch kubectl between clusters
-</br>
-TODO: Show that you can manipulate the Cluster Crossplane resource and see the cluster change in GKE (change name to `newnamewhodis`) ?
+TODO: Show that you can manipulate the Cluster Crossplane resource and see the cluster change in GKE
 
 ```bash
 ```
@@ -212,9 +208,9 @@ Delete the kubeconfig file
 ```bash
 echo $KUBECONFIG
 
-## MAKE SURE THIS IS THE RIGHT FILE
+rm -rf $PWD/kubeconfig-kind-gke.yaml -i
 
-rm -rf $PWD/kubeconfig-kind-gke.yaml
+## MAKE SURE THIS IS THE RIGHT FILE
 ```
 
 
