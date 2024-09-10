@@ -210,7 +210,7 @@ Delete the kubeconfig file
 ```bash
 echo $KUBECONFIG
 
-rm -rf $PWD/kubeconfig-kind-gke.yaml -i
+rm -rf -i $PWD/kubeconfig-kind-gke.yaml
 
 ## MAKE SURE THIS IS THE RIGHT FILE
 ```
