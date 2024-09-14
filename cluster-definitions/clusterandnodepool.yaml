@@ -31,7 +31,5 @@ spec:
         machineType: e2-medium
         oauthScopes:
           - https://www.googleapis.com/auth/cloud-platform
-        # resourceLabels:
-        #   heckyesyoudidit: yourefrigginawesome
         labels:
           heckyesyoudidit: yourefrigginawesome
