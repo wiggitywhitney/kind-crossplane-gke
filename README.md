@@ -26,6 +26,7 @@ Next, create a kind cluster.
 ```bash
 kind create cluster
 ```
+
 ## Install Crossplane
 Install Crossplane into the kind cluster using Helm.
 
@@ -33,16 +34,17 @@ First, enable the Crossplane Helm Chart repository.
 
 ```bash
 helm repo add \
-crossplane-stable https://charts.crossplane.io/stable
+    crossplane-stable https://charts.crossplane.io/stable
+
 helm repo update
 ```
 
 Then install the Crossplane components into a `crossplane-system` namespace.
 ```bash
 helm install crossplane \
-crossplane-stable/crossplane \
---namespace crossplane-system \
---create-namespace
+    crossplane-stable/crossplane \
+    --namespace crossplane-system \
+    --create-namespace
 ```
 
 Verify your Crossplane installation.
@@ -81,19 +83,24 @@ export SA_NAME=wiggitywhitney
 
 export SA="${SA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com"
 
-gcloud iam service-accounts create $SA_NAME --project $PROJECT_ID
+gcloud iam service-accounts create $SA_NAME \
+    --project $PROJECT_ID
 ```
 
 Bind the `wiggitywhitney` service account to an admin role.
 ```bash
 export ROLE=roles/admin
 
-gcloud projects add-iam-policy-binding --role $ROLE $PROJECT_ID --member serviceAccount:$SA
+gcloud projects add-iam-policy-binding \
+    --role $ROLE $PROJECT_ID \
+    --member serviceAccount:$SA
 ```
 
 Create credentials in a `gcp-creds.json` file (already added to `.gitignore`).
 ```bash
-gcloud iam service-accounts keys create gcp-creds.json --project $PROJECT_ID --iam-account $SA
+gcloud iam service-accounts keys create gcp-creds.json \
+    --project $PROJECT_ID \
+    --iam-account $SA
 ```
 
 ## Configure Crossplane to create and manage GKE resources
@@ -107,7 +114,9 @@ kubectl --namespace crossplane-system \
 
 To see your new secret, run the following:
 ```bash
-kubectl get secret gcp-secret -n crossplane-system -o yaml
+kubectl --namespace crossplane-system \
+    get secret gcp-secret \
+    --output yaml
 ```
 
 View the `provider-gcp-container` manifest. When applied, it will install the Crossplane infrastructure provider for GCP. 
@@ -211,7 +220,8 @@ gcloud container clusters list
 
 Describe the cluster that you and Crossplane made!
 ```bash
-gcloud container clusters describe newclusterwhodis --region us-central1-b
+gcloud container clusters describe newclusterwhodis \
+    --region us-central1-b
 ```
 
 Explore! Try and find the easter egg label set on the machine that our `NodePool` resource created!
@@ -229,10 +239,16 @@ TODO: GCP Container Provider 1.8 has a [bug](https://github.com/crossplane-contr
 TODO: Delete Crossplane resources & see that the corresponding GKE resources disappear
 
 </br>
+TODO: Is USE_GKE_GCLOUD_AUTH_PLUGIN is necessary any more? Try without it.
+
+</br>
 TODO: Add intro & outro
 
 </br>
-TODO: Add screenshots
+TODO: Add command outputs
+
+</br>
+TODO: Add console screenshots
 
 </br>
 TODO: Complete Easter Egg solutions
@@ -264,5 +280,3 @@ rm -rf -i $PWD/kubeconfig-kind-gke.yaml
 
 ## MAKE SURE THIS IS THE RIGHT FILE
 ```
-
-
