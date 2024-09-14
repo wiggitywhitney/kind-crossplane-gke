@@ -7,9 +7,10 @@ metadata:
 spec:
   forProvider:
     deletionProtection: false
-    initialNodeCount: 1
-    location: us-central1
     removeDefaultNodePool: true
+    initialNodeCount: 1
+    location: us-central1-b
+
 
 ---
 
@@ -18,22 +19,19 @@ kind: NodePool
 metadata:
   name: newnodepoolwhodis
   labels:
-    heckyesyoudidit: yourefrigginawesome
     cluster-name: newclusterwhodis
 spec:
   forProvider:
     clusterSelector:
-      matchControllerRef: true
-      # matchLabels:
-      #   cluster-name: newclusterwhodis
+      matchLabels:
+        cluster-name: newclusterwhodis
     nodeCount: 1
-    nodeLocations:
-      - us-central1-b
     nodeConfig:
       - preemptible: true
         machineType: e2-medium
         oauthScopes:
           - https://www.googleapis.com/auth/cloud-platform
-        serviceAccountSelector:
-          matchLabels:
-            cluster-name: newclusterwhodis
+        # resourceLabels:
+        #   heckyesyoudidit: yourefrigginawesome
+        labels:
+          heckyesyoudidit: yourefrigginawesome

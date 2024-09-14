@@ -151,38 +151,88 @@ Great! Now we can use Crossplane and Kubernetes to create a GKE cluster!
 * [API Documentation for the Crossplane GCP `Cluster` Managed Resource](https://marketplace.upbound.io/providers/upbound/provider-gcp-container/v1.8.0/resources/container.gcp.upbound.io/Cluster/v1beta1)
 * [API Documentation for the Crossplane GCP `NodePool` Managed Resource](https://marketplace.upbound.io/providers/upbound/provider-gcp-container/v1.8.0/resources/container.gcp.upbound.io/NodePool/v1beta1)
 
-Apply this minimal `Cluster` resource to make a GKE cluster!
+Apply this minimal `clusterandnodepool` resource definition to make a GKE cluster!
 ```bash
-kubectl apply -f cluster-definitions/bare-minimum.yaml
+kubectl apply -f cluster-definitions/clusterandnodepool.yaml
 ```
 
-View the minimal `Cluster` manifest. See that it uses [GKE Autopilot](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview) to manage your cluster configuration, so in this example, there are very few decisions that are made as part of the resource.
-
+To see the Crossplane resources that got created, run the following:
 ```bash
-cat cluster-definitions/bare-minimum.yaml
+kubectl get managed
 ```
 
-You can `get` and `describe` your Crossplane `Cluster` resource just like any other Kubernetes resource.
+You made a Crossplane `Cluster` resource and a Crossplane `NodePool` resource! 
+
 ```bash
-kubectl get cluster heckyesyoudiditgoodjob
+cat cluster-definitions/clusterandnodepool.yaml
+```
+
+You can `get` and `describe` your Crossplane `Cluster` and `NodePool` resources just like any other Kubernetes resource.
+
+```bash
+kubectl get cluster newclusterwhodis
 ```
 ```bash
-kubectl describe cluster heckyesyoudiditgoodjob
+kubectl describe nodepool newnodepoolwhodis
 ```
-If you like, view your cluster in Google Cloud Console:
+
+## View your cluster in GCP
+
+Let's view our newly created external resources! Which method do you prefer?
+* [Google Cloud Console](#View-your-new-cluster-in-the-Google-Cloud-Console-web-UI) web UI
+* [gcloud CLI](#View-your-new-cluster-via-the-gcloud-CLI)
+
+## View your new cluster in the Google Cloud Console web UI
 ```bash
 echo "https://console.cloud.google.com/kubernetes/list/overview?project=$PROJECT_ID"
 
 # Open the URL from the output
 ```
+Click around and try and find the easter egg label set on the machine that our `NodePool` resource created!
 
-Once your GKE cluster is ready, connect to it!
+Do you give up? Find more detailed instructions [here](easter-egg-hunt/gcp-console-ui.md).
+
+## View your new cluster via the gcloud CLI
+
+If needed, authorize `gcloud` to access the Google Cloud Platform:
+```bash
+gcloud auth login
+```
+
+Set the `project` property in your gcloud configuration
+```bash
+gcloud config set project $PROJECT_ID
+```
+
+See the cluster that you and Crossplane made!
+```bash
+gcloud container clusters list
+```
+
+Describe the cluster that you and Crossplane made!
+```bash
+gcloud container clusters describe newclusterwhodis --region us-central1-b
+```
+
+Explore! Try and find the easter egg label set on the machine that our `NodePool` resource created!
+
+Do you give up? Find more detailed instructions [here](easter-egg-hunt/gcloud-cli.md).
+
+
+<!-- Once your GKE cluster is ready, connect to it!
 
 ```bash
-gcloud container clusters get-credentials heckyesyoudiditgoodjob --region us-central1 --project $PROJECT_ID
+gcloud container clusters get-credentials newclusterwhodis --region us-central1 --project $PROJECT_ID
 
 # The gke_gcloud_auth_plugin_cache file has been added to .gitignore
 ```
+
+To switch back to your kind cluster, run the following command:
+```bash
+kubectl config set current-context kind-kind
+``` -->
+
+
 TO BE CONTINUED 
 
 </br>
