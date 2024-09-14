@@ -223,7 +223,7 @@ TO BE CONTINUED IN PART 2 - Compositions
 
 </br>
 
-TODO: GCP Container Provider 1.8 has a [bug]((https://github.com/crossplane-contrib/provider-upjet-gcp/issues/607) where default nodepool isn't being deleted. Refactor to use provider v1.7?
+TODO: GCP Container Provider 1.8 has a [bug](https://github.com/crossplane-contrib/provider-upjet-gcp/issues/607) where default nodepool isn't being deleted. Refactor to use provider v1.7?
 
 </br>
 TODO: Add intro & outro
