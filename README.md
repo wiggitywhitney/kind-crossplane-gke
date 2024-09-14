@@ -226,6 +226,9 @@ TO BE CONTINUED IN PART 2 - Compositions
 TODO: GCP Container Provider 1.8 has a [bug](https://github.com/crossplane-contrib/provider-upjet-gcp/issues/607) where default nodepool isn't being deleted. Refactor to use provider v1.7?
 
 </br>
+TODO: Delete Crossplane resources & see that the corresponding GKE resources disappear
+
+</br>
 TODO: Add intro & outro
 
 </br>
