@@ -219,27 +219,23 @@ Explore! Try and find the easter egg label set on the machine that our `NodePool
 Do you give up? Find more detailed instructions [here](easter-egg-hunt/gcloud-cli.md).
 
 
-<!-- Once your GKE cluster is ready, connect to it!
-
-```bash
-gcloud container clusters get-credentials newclusterwhodis --region us-central1 --project $PROJECT_ID
-
-# The gke_gcloud_auth_plugin_cache file has been added to .gitignore
-```
-
-To switch back to your kind cluster, run the following command:
-```bash
-kubectl config set current-context kind-kind
-``` -->
-
-
-TO BE CONTINUED 
+TO BE CONTINUED IN PART 2 - Compositions
 
 </br>
-TODO: Update demo to first create a simple Cluster/NodePool that doesn't use GKE AutoPilot
+
+TODO: GCP Container Provider 1.8 has a [bug]((https://github.com/crossplane-contrib/provider-upjet-gcp/issues/607) where default nodepool isn't being deleted. Refactor to use provider v1.7?
 
 </br>
-TODO: Show that you can manipulate the Cluster Crossplane resource and see the cluster change in GKE
+TODO: Add intro & outro
+
+</br>
+TODO: Add screenshots
+
+</br>
+TODO: Complete Easter Egg solutions
+
+Then it is finished!!!
+
 
 ```bash
 ```
