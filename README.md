@@ -140,6 +140,14 @@ View the `provider-gcp-container` manifest. When applied, it will install the Cr
 ```bash
 cat crossplane-config/provider-gcp-container.yaml
 ```
+```bash
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-gcp-container
+spec:
+  package: xpkg.upbound.io/upbound/provider-gcp-container:v1.7.0
+```
 
 Providers extend Crossplane by installing controllers for new kinds of managed resources.
 
@@ -153,6 +161,12 @@ To your three new Crossplane custom resource definitions, run the following:
 ```bash
 kubectl api-resources | grep "container.gcp.upbound.io"
 ```
+```bash
+clusters                                         container.gcp.upbound.io/v1beta2       false        Cluster
+nodepools                                        container.gcp.upbound.io/v1beta2       false        NodePool
+registries                                       container.gcp.upbound.io/v1beta1       false        Registry
+```
+
 (Spoiler alert: later we're going to create `Cluster` and `NodePool` resources!)
 
 Next we need to teach Crossplane how to connect to our Google Cloud project with the permissions that we created in the last step. We do that using a Crossplane `ProviderConfig` resource. 
@@ -166,6 +180,21 @@ As you can see, our `ProviderConfig` references both our GCP project name and th
 ```bash
 cat crossplane-config/providerconfig.yaml
 ```
+```bash
+apiVersion: gcp.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+spec:
+  projectID: <your $PROJECT_ID>
+  credentials:
+    source: Secret
+    secretRef:
+      namespace: crossplane-system
+      name: gcp-secret
+      key: creds
+```
+
 Let's apply it to the cluster.
 ```bash
 kubectl apply -f crossplane-config/providerconfig.yaml
@@ -186,11 +215,54 @@ To see the Crossplane resources that got created, run the following:
 ```bash
 kubectl get managed
 ```
+This is creating an external Google Cloud Kubernetes cluster, so it may take some minutes for the resources to become ready. Mine took about 12 minutes.
+```bash
+NAME                                                SYNCED   READY   EXTERNAL-NAME      AGE
+cluster.container.gcp.upbound.io/newclusterwhodis   True     True    newclusterwhodis   12m
 
-You made a Crossplane `Cluster` resource and a Crossplane `NodePool` resource! 
+NAME                                                  SYNCED   READY   EXTERNAL-NAME       AGE
+nodepool.container.gcp.upbound.io/newnodepoolwhodis   True     True    newnodepoolwhodis   12m
+```
 
+You made a Crossplane `Cluster` resource and a Crossplane `NodePool` resource! Let's view the manifests.
 ```bash
 cat cluster-definitions/clusterandnodepool.yaml
+```
+```bash
+apiVersion: container.gcp.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  name: newclusterwhodis
+  labels:
+   cluster-name: newclusterwhodis
+spec:
+  forProvider:
+    deletionProtection: false
+    removeDefaultNodePool: true
+    initialNodeCount: 1
+    location: us-central1-b
+
+---
+
+apiVersion: container.gcp.upbound.io/v1beta1
+kind: NodePool
+metadata:
+  name: newnodepoolwhodis
+  labels:
+    cluster-name: newclusterwhodis
+spec:
+  forProvider:
+    clusterSelector:
+      matchLabels:
+        cluster-name: newclusterwhodis
+    nodeCount: 1
+    nodeConfig:
+      - preemptible: true
+        machineType: e2-medium
+        oauthScopes:
+          - https://www.googleapis.com/auth/cloud-platform
+        labels:
+          heckyesyoudidit: yourefrigginawesome
 ```
 
 You can `get` and `describe` your Crossplane `Cluster` and `NodePool` resources just like any other Kubernetes resource.
@@ -199,13 +271,20 @@ You can `get` and `describe` your Crossplane `Cluster` and `NodePool` resources 
 kubectl get cluster newclusterwhodis
 ```
 ```bash
+NAME               SYNCED   READY   EXTERNAL-NAME      AGE
+newclusterwhodis   True     True    newclusterwhodis   14m
+```
+```bash
 kubectl describe nodepool newnodepoolwhodis
+```
+```bash
+# This has too long of an output to display here. But you should run it!
 ```
 
 ## View your cluster in GCP
 
 Let's view our newly created external resources! Which method do you prefer?
-* [Google Cloud Console](#View-your-new-cluster-in-the-Google-Cloud-Console-web-UI) web UI
+* [Google Cloud Console web UI](#View-your-new-cluster-in-the-Google-Cloud-Console-web-UI)
 * [gcloud CLI](#View-your-new-cluster-via-the-gcloud-CLI)
 
 ## View your new cluster in the Google Cloud Console web UI
@@ -214,7 +293,7 @@ echo "https://console.cloud.google.com/kubernetes/list/overview?project=$PROJECT
 
 # Open the URL from the output
 ```
-Click around and try and find the easter egg label set on the machine that our `NodePool` resource created!
+Click around and try and find the Easter egg label set on the machine that our `NodePool` resource created!
 
 Do you give up? Find more detailed instructions [here](easter-egg-hunt/gcp-console-ui.md).
 
@@ -234,6 +313,10 @@ See the cluster that you and Crossplane made!
 ```bash
 gcloud container clusters list
 ```
+```bash
+NAME              LOCATION       MASTER_VERSION      MASTER_IP        MACHINE_TYPE  NODE_VERSION        NUM_NODES  STATUS
+newclusterwhodis  us-central1-b  1.30.3-gke.1639000  104.155.132.170  e2-medium     1.30.3-gke.1639000  1          RUNNING
+```
 
 Describe the cluster that you and Crossplane made!
 ```bash
@@ -241,28 +324,31 @@ gcloud container clusters describe newclusterwhodis \
     --region us-central1-b
 ```
 
-Explore! Try and find the easter egg label set on the machine that our `NodePool` resource created!
+Explore! Try and find the Easter egg label set on the machine that our `NodePool` resource created!
 
 Do you give up? Find more detailed instructions [here](easter-egg-hunt/gcloud-cli.md).
+
+## Delete your local Crossplane resources, which will delete the GKE cluster
+
+Because your GKE cluster is being managed by the instance of Crossplane that is running in your kind cluster, when you delete your local `newclusterwhodis` Crossplane `Cluster` resources and your `newnodepoolwhodis` Crossplane `NodePool` resource, it will also delete the associated GKE resources that are running in Google Cloud. 
+
+But you don't have to take my word for it! Let's do it!
+
+```bash
+kubectl delete cluster newclusterwhodis
+
+kubectl delete nodepool newnodepoolwhodis
+```
+In a few minutes, once the commands resolve, use your preferred method (web ui or CLI) to see that the GKE resources have disappeared.
+
+
 
 
 TO BE CONTINUED IN PART 2 - Compositions
 
-</br>
-
-TODO: GCP Container Provider 1.8 has a [bug](https://github.com/crossplane-contrib/provider-upjet-gcp/issues/607) where default nodepool isn't being deleted. Refactor to use provider v1.7?
-
-</br>
-TODO: Delete Crossplane resources & see that the corresponding GKE resources disappear
-
-</br>
-TODO: Is USE_GKE_GCLOUD_AUTH_PLUGIN is necessary any more? Try without it.
 
 </br>
 TODO: Add intro & outro
-
-</br>
-TODO: Add command outputs
 
 </br>
 TODO: Add console screenshots
@@ -274,8 +360,7 @@ TODO: Complete Easter Egg solutions
 Then it is finished!!!
 
 
-```bash
-```
+
 
 ## Resource Clean Up
 
