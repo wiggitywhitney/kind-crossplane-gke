@@ -9,7 +9,6 @@
 * [kind](https://github.com/kubernetes-sigs/kind?tab=readme-ov-file)
 * [Helm](https://helm.sh/docs/intro/install/)
 * [gcloud CLI](https://cloud.google.com/sdk/docs/install)
-* [GKE gcloud auth plugin](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
 * [yq](https://github.com/mikefarah/yq)
 
 ## Create a management cluster with kind
@@ -51,17 +50,35 @@ Verify your Crossplane installation.
 ```bash
 kubectl get pods -n crossplane-system
 ```
+```bash
+NAME                                       READY   STATUS    RESTARTS   AGE
+crossplane-7b47779878-jv9kk                1/1     Running   0          115s
+crossplane-rbac-manager-7f8b68c844-4lz2f   1/1     Running   0          115s
+```
 
 If you like, check out all of the custom resources that got added to your cluster as part of the Crossplane installation:
 ```bash
 kubectl api-resources | grep crossplane
 ```
-## Configure Google Cloud to allow Crossplane to create and manage GKE resources
-
-Enable authentication to Google Cloud via CLI.
 ```bash
-export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+compositeresourcedefinitions        xrd,xrds     apiextensions.crossplane.io/v1         false        CompositeResourceDefinition
+compositionrevisions                comprev      apiextensions.crossplane.io/v1         false        CompositionRevision
+compositions                        comp         apiextensions.crossplane.io/v1         false        Composition
+environmentconfigs                  envcfg       apiextensions.crossplane.io/v1alpha1   false        EnvironmentConfig
+usages                                           apiextensions.crossplane.io/v1alpha1   false        Usage
+configurationrevisions                           pkg.crossplane.io/v1                   false        ConfigurationRevision
+configurations                                   pkg.crossplane.io/v1                   false        Configuration
+controllerconfigs                                pkg.crossplane.io/v1alpha1             false        ControllerConfig
+deploymentruntimeconfigs                         pkg.crossplane.io/v1beta1              false        DeploymentRuntimeConfig
+functionrevisions                                pkg.crossplane.io/v1                   false        FunctionRevision
+functions                                        pkg.crossplane.io/v1                   false        Function
+locks                                            pkg.crossplane.io/v1beta1              false        Lock
+providerrevisions                                pkg.crossplane.io/v1                   false        ProviderRevision
+providers                                        pkg.crossplane.io/v1                   false        Provider
+storeconfigs                                     secrets.crossplane.io/v1alpha1         false        StoreConfig
 ```
+
+## Configure Google Cloud to allow Crossplane to create and manage GKE resources
 
 Create a Google Cloud project.
 ```bash
@@ -153,9 +170,9 @@ Let's apply it to the cluster.
 ```bash
 kubectl apply -f crossplane-config/providerconfig.yaml
 ```
-Great! Now we can use Crossplane and Kubernetes to create a GKE cluster!
+Great! Now we can use Crossplane and our local kind cluster to create a GKE cluster!
 
-## Use Crossplane and Kuberentes to create a GKE cluster
+## Use Crossplane and our local kind cluster to create a GKE cluster
 
 * [API Documentation for the Crossplane GCP `Cluster` Managed Resource](https://marketplace.upbound.io/providers/upbound/provider-gcp-container/v1.8.0/resources/container.gcp.upbound.io/Cluster/v1beta1)
 * [API Documentation for the Crossplane GCP `NodePool` Managed Resource](https://marketplace.upbound.io/providers/upbound/provider-gcp-container/v1.8.0/resources/container.gcp.upbound.io/NodePool/v1beta1)
