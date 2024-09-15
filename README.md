@@ -5,10 +5,10 @@
 * [Crossplane](https://docs.crossplane.io/)
 
 ## Prerequisites: </br>
-* [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/) </br>
+* [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/)
 * [kind](https://github.com/kubernetes-sigs/kind?tab=readme-ov-file)
 * [Helm](https://helm.sh/docs/intro/install/)
-* [gcloud CLI](https://cloud.google.com/sdk/docs/install)
+* [gcloud CLI](https://cloud.google.com/sdk/docs/install), authorized to access Google Cloud
 * [yq](https://github.com/mikefarah/yq)
 
 ## Create a management cluster with kind
