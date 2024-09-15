@@ -327,7 +327,7 @@ Do you give up? Find more detailed instructions [here](easter-egg-hunt/gcloud-cl
 
 ## Delete your local Crossplane resources, which will delete the GKE cluster
 
-Because your GKE cluster is being managed by the instance of Crossplane that is running in your kind cluster, when you delete your local `newclusterwhodis` Crossplane `Cluster` resources and your `newnodepoolwhodis` Crossplane `NodePool` resource, it will also delete the associated GKE resources that are running in Google Cloud. 
+Because your GKE cluster is being managed by the instance of Crossplane that is running in your kind cluster, when you delete your local `newclusterwhodis` Crossplane `Cluster` resource and your `newnodepoolwhodis` Crossplane `NodePool` resource, it will also delete the associated GKE resources that are running in Google Cloud. 
 
 But you don't have to take my word for it! Let's do it!
 
@@ -351,7 +351,7 @@ TODO: Add intro & outro
 TODO: Add console screenshots
 
 </br>
-TODO: Complete Easter Egg solutions
+TODO: Complete Easter egg solutions
 
 </br>
 Then it is finished!!!
