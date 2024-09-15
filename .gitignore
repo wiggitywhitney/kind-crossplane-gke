@@ -1,4 +1,3 @@
 /kubeconfig*.yaml
 /gcp-creds.json
 gke_gcloud_auth_plugin_cache
-another-try.yaml
