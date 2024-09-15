@@ -261,8 +261,6 @@ spec:
         machineType: e2-medium
         oauthScopes:
           - https://www.googleapis.com/auth/cloud-platform
-        labels:
-          heckyesyoudidit: yourefrigginawesome
 ```
 
 You can `get` and `describe` your Crossplane `Cluster` and `NodePool` resources just like any other Kubernetes resource.
