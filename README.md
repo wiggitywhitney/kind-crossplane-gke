@@ -224,7 +224,7 @@ NAME                                                  SYNCED   READY   EXTERNAL-
 nodepool.container.gcp.upbound.io/newnodepoolwhodis   True     True    newnodepoolwhodis   12m
 ```
 
-You made a Crossplane `Cluster` resource and a Crossplane `NodePool` resource! Let's view the manifests.
+You made a Crossplane `Cluster` resource and a Crossplane `NodePool` resource, which in turn made an external GKE Cluster and a GKE Node Pool! Let's view the manifests.
 ```bash
 cat cluster-definitions/clusterandnodepool.yaml
 ```
@@ -276,8 +276,7 @@ newclusterwhodis   True     True    newclusterwhodis   14m
 ```
 ```bash
 kubectl describe nodepool newnodepoolwhodis
-```
-```bash
+
 # This has too long of an output to display here. But you should run it!
 ```
 
@@ -339,7 +338,7 @@ kubectl delete cluster newclusterwhodis
 
 kubectl delete nodepool newnodepoolwhodis
 ```
-In a few minutes, once the commands resolve, use your preferred method (web ui or CLI) to see that the GKE resources have disappeared.
+In a few minutes, once the commands resolve, use your preferred method (web UI or CLI) to see that the GKE resources have been deleted.
 
 
 
