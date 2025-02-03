@@ -1,4 +1,4 @@
-# Provision a GKE cluster using Crossplane running in a kind management cluster
+# Provision a GKE cluster using Crossplane `Managed Resources` running in a KIND management cluster
 
 ## Important Links:
 * [KIND](https://kind.sigs.k8s.io/)
