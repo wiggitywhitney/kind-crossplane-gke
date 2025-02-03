@@ -151,7 +151,7 @@ spec:
 
 Providers extend Crossplane by installing controllers for new kinds of managed resources.
 
-Apply `provider-gcp-container` to your cluster to add [three new custom resource definitions](https://marketplace.upbound.io/providers/upbound/provider-gcp-container/v1.8.0) to your cluster. Each of these CRDs is called a `Managed Resource`, and each one is Crossplane's representation of a GCP resource. 
+Apply `provider-gcp-container` to your cluster to add [three new custom resource definitions](https://marketplace.upbound.io/providers/upbound/provider-gcp-container/v1.7.0) to your cluster. Each of these CRDs is called a `Managed Resource`, and each one is Crossplane's representation of a GCP resource. 
 
 Once this Provider is installed, you will have the ability to manage external cloud resources via the Kubernetes API.
 ```bash
@@ -215,7 +215,7 @@ To see the Crossplane resources that got created, run the following:
 ```bash
 kubectl get managed
 ```
-This is creating an external Google Cloud Kubernetes cluster, so it may take some minutes for the resources to become ready. Mine took about 12 minutes.
+This is creating an external Google Cloud Kubernetes cluster, so it may take some minutes for the resources to become `Ready`. Mine took about 12 minutes.
 ```bash
 NAME                                                SYNCED   READY   EXTERNAL-NAME      AGE
 cluster.container.gcp.upbound.io/newclusterwhodis   True     True    newclusterwhodis   12m
@@ -294,6 +294,8 @@ Click around and try and find the Easter egg label set on the machine that our `
 
 Do you give up? Find more detailed instructions [here](easter-egg-hunt/gcp-console-ui.md).
 
+[Jump to the next step](#delete-your-local-crossplane-resources-which-will-delete-the-GKE-cluster)
+
 ## View your new cluster via the gcloud CLI
 
 If needed, authorize `gcloud` to access the Google Cloud Platform:
@@ -325,6 +327,7 @@ Explore! Try and find the Easter egg label set on the machine that our `NodePool
 
 Do you give up? Find more detailed instructions [here](easter-egg-hunt/gcloud-cli.md).
 
+
 ## Delete your local Crossplane resources, which will delete the GKE cluster
 
 Because your GKE cluster is being managed by the instance of Crossplane that is running in your kind cluster, when you delete your local `newclusterwhodis` Crossplane `Cluster` resource and your `newnodepoolwhodis` Crossplane `NodePool` resource, it will also delete the associated GKE resources that are running in Google Cloud. 
@@ -338,28 +341,24 @@ kubectl delete nodepool newnodepoolwhodis
 ```
 In a few minutes, once the commands resolve, use your preferred method (web UI or CLI) to see that the GKE resources have been deleted.
 
+## Heck yes you did it!
 
+To summarize, we just did the following:
+* We created a KIND cluster on our local machine
+* We installed Crossplane
+* We configured Google Cloud to allow Crossplane to create and manage GKE resources by creating a Service Account, giving it admin permissions, and saving credidentals in a secret accessible by Crossplane
+* We enabled Crossplane to create and manage GKE clusters by adding Crossplane-managed `Cluster` and `NodePool` custom resources to the cluster via a Crossplane `Provider`.
+* **We created instances of those resources which provisioned a remote GKE cluster that is managed by Crossplane! Huzzah!**
+* We deleted the remote GKE resources simply by deleting the Crossplane resources
+
+This exercise is an important part of understanding how Crossplane works. However, in real life, resources like `Cluster` and `NodePool` are not created directly, like we just did. They're usually created as part of a Crossplane `Composition`. We'll learn about those in Part 2!
 
 
 TO BE CONTINUED IN PART 2 - Compositions
 
 
-</br>
-TODO: Add intro & outro
-
-</br>
-TODO: Add console screenshots
-
-</br>
-TODO: Complete Easter egg solutions
-
-</br>
-Then it is finished!!!
-
-
-
-
 ## Resource Clean Up
+> Do not run these if you are continuing to `PART 2 - Compositions`!
 
 Destroy kind cluster
 ```bash
@@ -374,8 +373,7 @@ gcloud projects delete $PROJECT_ID --quiet
 Delete the kubeconfig file
 ```bash
 echo $KUBECONFIG
+## MAKE SURE YOU ARE DELETING THE RIGHT FILE
 
 rm -rf -i $PWD/kubeconfig-kind.yaml
-
-## MAKE SURE THIS IS THE RIGHT FILE
 ```

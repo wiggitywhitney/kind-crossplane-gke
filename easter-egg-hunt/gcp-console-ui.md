@@ -1,5 +1,3 @@
-TODO: ADD SCREENSHOTS
-
 ```bash
 echo "https://console.cloud.google.com/kubernetes/list/overview?project=$PROJECT_ID"
 
