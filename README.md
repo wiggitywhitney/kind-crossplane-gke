@@ -1,5 +1,15 @@
 # Provision a GKE cluster using Crossplane `Managed Resources` running in a KIND management cluster
 
+In this guide, we will go step-by-step through the process of using Crossplane `Managed Resources` to provision and manage a GKE cluster from a local KIND management cluster. Here's what we'll do:
+* Set up a local KIND cluster as our management environment and install Crossplane into it.
+* Configure Google Cloud to allow Crossplane to create and manage GKE clusters.
+* Add Crossplane-managed custom resources to define and manage remote GKE clusters.
+* Declaratively provision a GKE cluster from within your KIND environment using Crossplane!!!
+
+> Confession: this is not how it is usually done. In real life, Crossplane `Managed Resources` are not created directly, like do as part of this demo. In real life, Crossplane `Managed Resources` are usually created as part of a Crossplane `Composition`. However, this exercise will help you understand the [first principles](https://en.wikipedia.org/wiki/First_principle) of how Crossplane works.
+
+Okay! Let's do this thing!!!
+
 ## Important Links:
 * [KIND](https://kind.sigs.k8s.io/)
 * [Crossplane](https://docs.crossplane.io/)
