@@ -1,33 +1,33 @@
 # Provision a GKE cluster using Crossplane running in a kind management cluster
 
 ## Important Links:
-* [kind](https://kind.sigs.k8s.io/)
+* [KIND](https://kind.sigs.k8s.io/)
 * [Crossplane](https://docs.crossplane.io/)
 
 ## Prerequisites: </br>
 * [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/)
-* [kind](https://github.com/kubernetes-sigs/kind?tab=readme-ov-file)
+* [KIND](https://github.com/kubernetes-sigs/kind?tab=readme-ov-file)
 * [Helm](https://helm.sh/docs/intro/install/)
 * [gcloud CLI](https://cloud.google.com/sdk/docs/install), authorized to access Google Cloud
 * [yq](https://github.com/mikefarah/yq)
 
-## Create a management cluster with kind
-When you create your kind cluster, a `kubeconfig` file will get created which has your cluster connection credentials (among other things).
+## Create a management cluster with KIND
+When you create your KIND cluster, a `kubeconfig` file will get created which has your cluster connection credentials (among other things).
 
-Tell kind to use this file to store its configuration -- `kubeconfig-kind.yaml`. That file has already been added to `.gitignore`.
+Tell KIND to use this file to store its configuration -- `kubeconfig-kind.yaml`. That file has already been added to `.gitignore`.
 
 ```bash
 export KUBECONFIG=$PWD/kubeconfig-kind.yaml
 ```
 
-Next, create a kind cluster. 
+Next, create a KIND cluster. 
 
 ```bash
 kind create cluster
 ```
 
 ## Install Crossplane
-Install Crossplane into the kind cluster using Helm.
+Install Crossplane into the KIND cluster using Helm.
 
 First, enable the Crossplane Helm Chart repository.
 
@@ -199,9 +199,9 @@ Let's apply it to the cluster.
 ```bash
 kubectl apply -f crossplane-config/providerconfig.yaml
 ```
-Great! Now we can use Crossplane and our local kind cluster to create a GKE cluster!
+Great! Now we can use Crossplane and our local KIND cluster to create a GKE cluster!
 
-## Use Crossplane and our local kind cluster to create a GKE cluster
+## Use Crossplane and our local KIND cluster to create a GKE cluster
 
 * [API Documentation for the Crossplane GCP `Cluster` Managed Resource](https://marketplace.upbound.io/providers/upbound/provider-gcp-container/v1.8.0/resources/container.gcp.upbound.io/Cluster/v1beta1)
 * [API Documentation for the Crossplane GCP `NodePool` Managed Resource](https://marketplace.upbound.io/providers/upbound/provider-gcp-container/v1.8.0/resources/container.gcp.upbound.io/NodePool/v1beta1)
@@ -330,7 +330,7 @@ Do you give up? Find more detailed instructions [here](easter-egg-hunt/gcloud-cl
 
 ## Delete your local Crossplane resources, which will delete the GKE cluster
 
-Because your GKE cluster is being managed by the instance of Crossplane that is running in your kind cluster, when you delete your local `newclusterwhodis` Crossplane `Cluster` resource and your `newnodepoolwhodis` Crossplane `NodePool` resource, it will also delete the associated GKE resources that are running in Google Cloud. 
+Because your GKE cluster is being managed by the instance of Crossplane that is running in your KIND cluster, when you delete your local `newclusterwhodis` Crossplane `Cluster` resource and your `newnodepoolwhodis` Crossplane `NodePool` resource, it will also delete the associated GKE resources that are running in Google Cloud. 
 
 But you don't have to take my word for it! Let's do it!
 
@@ -358,9 +358,9 @@ TO BE CONTINUED IN PART 2 - Compositions
 
 
 ## Resource Clean Up
-> Do not run these if you are continuing to `PART 2 - Compositions`!
+Do not run these if you are continuing to `PART 2 - Compositions`!
 
-Destroy kind cluster
+Destroy KIND cluster
 ```bash
 kind delete cluster
 ```
